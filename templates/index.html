@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reddit Parkour</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/main.css" />
+</head>
+<body>
+<div class="layout">
+
+  <header>
+    <div class="logo-pill">r/</div>
+    <h1>Reddit Parkour</h1>
+    <span>Story → Video</span>
+  </header>
+
+  <main>
+    <div class="content">
+
+      <!-- Hero -->
+      <div class="hero">
+        <h2>Turn Reddit Stories<br>into <em>Parkour Videos</em></h2>
+        <p>Paste any Reddit text post. We'll read it aloud with AI voice, burn subtitles in, and loop the parkour clip behind it.</p>
+      </div>
+
+      <!-- Step 1: URL input -->
+      <div class="card" id="input-card">
+        <div class="url-row">
+          <input
+            class="url-input"
+            id="url-input"
+            type="text"
+            placeholder="https://reddit.com/r/AskReddit/comments/..."
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="btn-primary" id="gen-btn" onclick="fetchPost()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            Fetch Post
+          </button>
+        </div>
+        <div class="chips">
+          <span class="chip">✦ AI narration</span>
+          <span class="chip">✦ Auto subtitles</span>
+          <span class="chip">✦ Looping parkour bg</span>
+          <span class="chip">✦ Downloadable MP4</span>
+        </div>
+      </div>
+
+      <!-- Step 2: Edit fetched text -->
+      <div class="card hidden" id="edit-card">
+        <div class="edit-field-label">Title</div>
+        <input class="edit-title-input" id="edit-title" type="text" autocomplete="off" spellcheck="false" />
+
+        <div class="edit-field-label">Story</div>
+        <textarea class="edit-story-textarea" id="edit-story"></textarea>
+
+        <div class="edit-actions">
+          <button class="btn-primary" id="make-btn" onclick="startGeneration()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            Make Video
+          </button>
+          <button class="btn-ghost" onclick="backToInput()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+            Back
+          </button>
+        </div>
+      </div>
+
+      <!-- Error banner (shared across all steps) -->
+      <div class="error-box hidden" id="error-box"></div>
+
+      <!-- Step 3: Generation progress -->
+      <div class="card hidden" id="progress-card">
+        <div class="steps">
+
+          <div class="step" id="s-fetch">
+            <div class="step-icon" id="si-fetch">1</div>
+            <div class="step-text">
+              <div class="step-label">Post fetched &amp; edited</div>
+              <div class="step-sub">Ready to go</div>
+            </div>
+          </div>
+
+          <div class="step" id="s-tts">
+            <div class="step-icon" id="si-tts">2</div>
+            <div class="step-text">
+              <div class="step-label">Generating speech</div>
+              <div class="step-sub">Creating AI narration &amp; subtitle timings…</div>
+            </div>
+          </div>
+
+          <div class="step" id="s-vid">
+            <div class="step-icon" id="si-vid">3</div>
+            <div class="step-text">
+              <div class="step-label">Encoding video</div>
+              <div class="step-sub">Looping background, mixing audio, burning subs…</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Step 4: Video result -->
+      <div class="card hidden" id="video-card">
+        <video id="result-video" controls playsinline></video>
+        <div class="video-actions">
+          <a id="dl-btn" href="#" download class="btn-download">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download MP4
+          </a>
+          <button class="btn-ghost" onclick="startOver()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="1 4 1 10 7 10"/>
+              <path d="M3.51 15a9 9 0 1 0 .49-4.95"/>
+            </svg>
+            New Video
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>
