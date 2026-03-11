@@ -19,7 +19,7 @@ def process_job(job_id: str, title: str, story: str):
     tmp          = tempfile.gettempdir()
     audio_path   = os.path.join(tmp, f"_tts_{job_id}.mp3")
     output_path  = os.path.join(tmp, f"video_{job_id}.mp4")
-    parkour_path = os.path.join(PROJECT_DIR, "static", "assets", "parkour.mp4")
+    parkour_path = os.path.join(PROJECT_DIR, "static", "assets", "cs.mp4")
 
     try:
         full_text  = expand_for_tts(f"{title}. {story}")
