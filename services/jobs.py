@@ -1,7 +1,10 @@
+import logging
 import os
 import tempfile
 import threading
 import time
+
+logger = logging.getLogger(__name__)
 
 from services.tts import generate_tts, expand_for_tts, restore_acronyms_in_subtitles
 from services.video import create_video, _cleanup
@@ -26,6 +29,7 @@ def process_job(job_id: str, title: str, story: str):
         boundaries = generate_tts(full_text, audio_path)
         restore_acronyms_in_subtitles(boundaries)
     except Exception:
+        logger.exception("TTS generation failed for job %s", job_id)
         jobs[job_id] = {"status": "error", "error": "Speech generation failed. Please try again."}
         _cleanup(audio_path)
         return
@@ -35,6 +39,7 @@ def process_job(job_id: str, title: str, story: str):
     try:
         create_video(parkour_path, audio_path, boundaries, output_path)
     except Exception:
+        logger.exception("Video encoding failed for job %s", job_id)
         jobs[job_id] = {"status": "error", "error": "Video encoding failed. Please try again."}
         _cleanup(audio_path)
         return

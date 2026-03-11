@@ -3,10 +3,14 @@ import shutil
 import subprocess
 import tempfile
 
+import shutil
+
 import imageio_ffmpeg
 from mutagen.mp3 import MP3
 
-_FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
+# Prefer a system-installed FFmpeg (full codec support incl. libass).
+# Fall back to the imageio_ffmpeg bundled binary for local dev on Windows.
+_FFMPEG = shutil.which("ffmpeg") or imageio_ffmpeg.get_ffmpeg_exe()
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FONTS_DIR   = os.path.join(PROJECT_DIR, "static", "fonts")
