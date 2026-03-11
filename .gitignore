@@ -17,3 +17,6 @@ Thumbs.db
 
 # Railway
 .railway/
+
+# Background videos (too large for GitHub; deploy via railway up)
+static/assets/*.mp4
