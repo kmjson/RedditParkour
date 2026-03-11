@@ -1,3 +1,4 @@
+import logging
 import os
 import uuid
 import time
@@ -7,6 +8,12 @@ from flask import Flask, request, jsonify, send_file, render_template
 
 from services.reddit import fetch_reddit_post
 from services.jobs import jobs, process_job, cleanup_old_jobs
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
@@ -31,6 +38,7 @@ def api_fetch():
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     except Exception:
+        logger.exception("Failed to fetch Reddit post: %s", reddit_url)
         return jsonify({"error": "Could not fetch post. Check the URL and try again."}), 400
     if not story:
         return jsonify({"error": "No text body found. This might be a link/image post."}), 400
